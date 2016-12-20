@@ -31,6 +31,10 @@ Lexer.prototype.lex = function (str) {
                 text:char
             });
             this.index++;
+        } else if (this.isNumber(char)) {
+            this.readNumber();
+        } else {
+            throw new Error('illegal token: ' + char);
         }
     }
     return this.tokens;
@@ -60,5 +64,50 @@ Lexer.prototype.readString = function () {
     throw new Error('json read string error:');
 };
 
+Lexer.prototype.isNumber = function (char) {
+    return char >= '0' && char <= '9';
+};
+
+
+Lexer.prototype.readNumber = function () {
+    let number = '';
+    let char;
+    while (this.index < this.str.length) {
+        char = this.str[this.index];
+        if (char === '.' || this.isNumber(char)) {
+            number += char;
+        } else {
+            const nextChar = this.next();
+            const prevChar = this.prev();
+            if (char === 'e' && this.isExpOperator(nextChar)) {
+                number += char;
+            } else if (prevChar === 'e' && this.isExpOperator(char) && nextChar && this.isNumber(nextChar)) {
+                number += char;
+            } else if (prevChar === 'e' && this.isExpOperator(char) && (!nextChar || this.isNumber(nextChar))) {
+                throw new Error('illegal number token at :' + this.index);
+            } else {
+                break;
+            }
+        }
+        this.index++;
+    }
+    this.tokens.push({
+        text:number,
+        value:Number(number)
+    });
+};
+
+Lexer.prototype.next = function () {
+    return this.str[this.index + 1];
+};
+
+Lexer.prototype.prev = function () {
+    return this.str[this.index - 1];
+};
+
+
+Lexer.prototype.isExpOperator = function (char) {
+    return char === '+' || char === '-' || this.isNumber(char);
+};
 
 module.exports = Lexer;
