@@ -1,0 +1,66 @@
+{
+    "extends": "airbnb",
+    "env": {
+        "browser": true,
+        "node": true,
+        // "sinon": true,
+        "jasmine":true,
+        "jquery": true
+    },
+    "globals":{
+        "expect":true,
+        "_":true,
+        "sinon":true,
+        "publishExternalAPI":true,
+        "setupModuleLoader":true,
+        "createInjector":true
+    },
+    "rules": {
+        // 设定缩进为4个空格
+        "indent" : [2, 4, { "SwitchCase": 1 }],
+        // 允许object键值后有空格，否则对齐等号会报错
+        "key-spacing" : 0,
+        // function 可以不需要名称，例如，接受Foo.prototype.bar = function () {};
+        "func-names": [2, "never"],
+        "space-before-function-paren": [2, {"anonymous": "always", "named": "never"}],
+        // 强制js语句结尾加分号
+        "semi": [2,"always"],
+        // 允许代码中有console.log
+        "no-console" : 0,
+        // 允许代码中有alert
+        "no-alert" : 0,
+        // 当且仅当function有return时，才强制js doc里面有return type
+        "valid-jsdoc": [2, {"requireReturn": false}],
+        // 允许在作用域内重复使用'err'
+        "no-shadow": [2, { "allow": ["err"] }],
+        // 使用new关键字时，'webpackHtmlPlugin'不需要首字母大写
+        "new-cap": [2, { "newIsCapExceptions": ["webpackHtmlPlugin"]}],
+        // 允许function的参数定义后不使用,忽略结尾gnored的变量
+        "no-unused-vars": [2, { "args": "none","varsIgnorePattern": "[iI]gnored"}],
+        // 允许function的参数重新赋值
+        "no-param-reassign": 0,
+        // 禁止使用嵌套的三目运算
+        "no-nested-ternary": 0,
+        // 允许在function后面使用bind
+        "no-extra-bind": 0,
+        // 强制函数中的变量初始化的分别声明
+        "one-var": [2, { "initialized": "never"}],
+        // 调用new关键字生成对象的时候，取消必须将生成的实例赋值给变量。
+        "no-new": 0,
+        // 允许parseInt不指定第二个参数
+        "radix": 1,
+        "comma-dangle":[2,"never"],
+        "no-use-before-define": ["error", { "functions": false, "classes": true }],
+        "no-extend-native": ["error", { "exceptions": ["Promise"] }],
+        "no-var": "off",
+        "prefer-arrow-callback": "off",
+        "object-shorthand": "off",
+        "vars-on-top": "off",
+        "max-len": "off",
+        "prefer-template": "off",
+        "linebreak-style": "off",
+        "prefer-rest-params": "off",
+        "prefer-spread": "off",
+        "one-var-declaration-per-line":"off"
+    }
+}
