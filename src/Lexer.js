@@ -19,7 +19,7 @@ Lexer.prototype.lex = function (str) {
     let char;
     while (this.index < len) {
         char = str[this.index];
-        if (this.match(char, '\\{\\}\\[\\]')) {
+        if (this.match(char, '\\{\\}\\[\\],')) {
             this.tokens.push({
                 text: char
             });

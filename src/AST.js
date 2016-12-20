@@ -28,6 +28,7 @@ AST.prototype.constants = {
 
 AST.prototype.ast = function (text) {
     this.tokens = this.lexer.lex(text);
+    console.log(this.tokens);
     return this.build();
 };
 
@@ -62,7 +63,7 @@ AST.prototype.properties = function (tokens) {
         };
         prop.key = this.nextToken();
         this.consume(':');
-        prop.value = this.primary();
+        prop.value = this.build();
         props.push(prop);
     } while (this.expect(','));
 
@@ -73,6 +74,7 @@ AST.prototype.properties = function (tokens) {
 AST.prototype.primary = function () {
     let primary;
     const token = this.nextToken();
+    console.log(token);
     if (token.identifier) {
         if (_.has(this.constants, token.text)) {
             primary = this.constants[token.text];
@@ -90,7 +92,18 @@ AST.prototype.primary = function () {
 };
 
 AST.prototype.elements = function (tokens) {
-    return [];
+    const elements = [];
+
+    if (this.expect(']')) {
+        this.consume();
+        return elements;
+    }
+
+    do {
+        elements.push(this.build());
+    } while (this.expectNext(','));
+
+    return elements;
 };
 
 

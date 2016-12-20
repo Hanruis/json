@@ -56,5 +56,10 @@ describe('parse', () => {
         const result = parser.parse('{ "key":false}');
         expect(result).to.eql({ key:false });
     });
+
+    it.only('should parse array elements', () => {
+        const result = parser.parse('["a", "b"]');
+        expect(result).to.eql(['a', 'b']);
+    });
 });
 

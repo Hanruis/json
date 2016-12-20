@@ -2,7 +2,8 @@ const AST = {
     Object:'Object',
     Array:'Array',
     Property:'Property',
-    Literal:'Literal'
+    Literal:'Literal',
+    Elements:'Elements'
 };
 
 

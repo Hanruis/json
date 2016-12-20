@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test -w"
+    "test": "mocha -w test/**/*.js src/**/*.js"
   },
   "devDependencies": {
     "chai": "^3.5.0",
