@@ -20,6 +20,11 @@ describe('parse', () => {
         const result = parser.parse('{"key":"value"}');
         expect(result).to.eql({ key:'value' });
     });
+    it('should parse several obj key & string type value', () => {
+        const result = parser.parse('{"key":"value", "key2":"value2"}');
+        expect(result).to.eql({ key:'value', key2:'value2' });
+    });
+
 
     it('should throw err while not use " for key name', () => {
         expect(function () {
@@ -57,9 +62,24 @@ describe('parse', () => {
         expect(result).to.eql({ key:false });
     });
 
-    it.only('should parse array elements', () => {
+    it('should parse array elements', () => {
         const result = parser.parse('["a", "b"]');
         expect(result).to.eql(['a', 'b']);
+    });
+
+    it('should parse array number boolean null elements', () => {
+        const result = parser.parse('[1, "b", null]');
+        expect(result).to.eql([1, 'b', null]);
+    });
+
+    it('should parse array value', () => {
+        const result = parser.parse('{"key":["a", "b"]}');
+        expect(result).to.eql({ key:['a', 'b'] });
+    });
+
+    it('should parse object in array', () => {
+        const result = parser.parse('[{"key":1}]');
+        expect(result).to.eql([{ key:1 }]);
     });
 });
 
