@@ -1,11 +1,30 @@
 const ASTTypes = require('./astTypes');
-
+const _ = require('lodash');
 /**
  * @param {array} str  json string
  */
 function AST(lexer) {
     this.lexer = lexer;
 }
+
+AST.prototype.constants = {
+    null: {
+        type: ASTTypes.Literal,
+        value: null
+    },
+    true: {
+        type: ASTTypes.Literal,
+        value: true
+    },
+    false: {
+        type: ASTTypes.Literal,
+        value: false
+    }
+    // undefined: {
+    //     type: ASTTypes.Literal,
+    //     value:undefined
+    // }
+};
 
 AST.prototype.ast = function (text) {
     this.tokens = this.lexer.lex(text);
@@ -28,7 +47,6 @@ AST.prototype.build = function () {
     } else {
         return this.primary();
     }
-    throw new Error('unexpect json string');
 };
 
 AST.prototype.properties = function (tokens) {
@@ -53,10 +71,22 @@ AST.prototype.properties = function (tokens) {
 
 
 AST.prototype.primary = function () {
-    return {
-        type:ASTTypes.Literal,
-        value:this.nextToken().value
-    };
+    let primary;
+    const token = this.nextToken();
+    if (token.identifier) {
+        if (_.has(this.constants, token.text)) {
+            primary = this.constants[token.text];
+        } else {
+            throw new Error('unexpect identifier string:' + token.text);
+        }
+    } else {
+        primary = {
+            type:ASTTypes.Literal,
+            value:token.value
+        };
+    }
+
+    return primary;
 };
 
 AST.prototype.elements = function (tokens) {

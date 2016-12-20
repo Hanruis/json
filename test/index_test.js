@@ -30,5 +30,31 @@ describe('parse', () => {
         const result = parser.parse('{"key":112}');
         expect(result).to.eql({ key:112 });
     });
+    it('should parse empyt string value', () => {
+        const result = parser.parse('{"key":""}');
+        expect(result).to.eql({ key:'' });
+    });
+    it('should parse empyt null value', () => {
+        const result = parser.parse('{"key":null}');
+        expect(result).to.eql({ key:null });
+    });
+    it('should parse empyt true value', () => {
+        const result = parser.parse('{"key":true}');
+        expect(result).to.eql({ key:true });
+    });
+    it('should parse empyt false value', () => {
+        const result = parser.parse('{"key":false}');
+        expect(result).to.eql({ key:false });
+    });
+    it('should parse formarted json string ', () => {
+        const result = parser.parse(`{
+            "key":false
+        }`);
+        expect(result).to.eql({ key:false });
+    });
+    it('should ignore white space', () => {
+        const result = parser.parse('{ "key":false}');
+        expect(result).to.eql({ key:false });
+    });
 });
 

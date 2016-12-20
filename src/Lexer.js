@@ -33,6 +33,10 @@ Lexer.prototype.lex = function (str) {
             this.index++;
         } else if (this.isNumber(char)) {
             this.readNumber();
+        } else if (this.isIdentifier(char)) {
+            this.readId();
+        } else if (this.isWhiteSpace(char)) {
+            this.index++;
         } else {
             throw new Error('illegal token: ' + char);
         }
@@ -103,6 +107,29 @@ Lexer.prototype.next = function () {
 
 Lexer.prototype.prev = function () {
     return this.str[this.index - 1];
+};
+
+Lexer.prototype.isIdentifier = function (char) {
+    return /[a-zA-Z]/.test(char);
+};
+
+Lexer.prototype.readId = function () {
+    let identifier = '';
+    let char = this.str[this.index];
+    do {
+        identifier += char;
+        this.index++;
+        char = this.str[this.index];
+    } while (this.isIdentifier(char) || this.isNumber(char));
+
+    this.tokens.push({
+        text:identifier,
+        identifier:true
+    });
+};
+
+Lexer.prototype.isWhiteSpace = function (char) {
+    return /\s/.test(char);
 };
 
 
