@@ -1,24 +1,19 @@
-const _ = require('lodash');
 const Lexer = require('./Lexer');
-const { ast } = require('./ast');
-const { compile } = require('./compile');
+const AST = require('./AST');
+const ASTCompiler = require('./ASTCompiler');
 
 
-function parse(jsonStr) {
-    if (!_.isString(jsonStr)) {
-        throw new Error('parse target must be string ');
-    }
-    const lexer = new Lexer(jsonStr);
-    const tree = ast(tokens);
-    const result = compile(tree);
-    return result;
+function Parser() {
+    this.lexer = new Lexer();
+    this.ast = new AST(this.lexer);
+    this.ASTCompiler = new ASTCompiler(this.ast);
 }
 
 
-function toString(obj) {
+Parser.prototype.parse = function (text) {
+    return this.ASTCompiler.compile(text);
+};
 
-}
 
-
-exports.parse = parse;
+exports.Parser = Parser;
 exports.toString = toString;

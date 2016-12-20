@@ -1,6 +1,8 @@
 const AST = {
-    OBJ:'OBJECT',
-    ARR:'ARRAY'
+    Object:'Object',
+    Array:'Array',
+    Property:'Property',
+    Literal:'Literal'
 };
 
 
