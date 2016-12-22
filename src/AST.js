@@ -1,8 +1,7 @@
 const ASTTypes = require('./astTypes');
 const _ = require('lodash');
-/**
- * @param {array} str  json string
- */
+
+
 function AST(lexer) {
     this.lexer = lexer;
 }
