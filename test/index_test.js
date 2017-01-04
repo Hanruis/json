@@ -1,5 +1,11 @@
-const { expect } = require('chai');
-const { Parser, serialize } = require('../src');
+const {
+    expect
+} = require('chai');
+const {
+    Parser,
+    serialize
+} = require('../src');
+const _ = require('lodash');
 
 describe('parse', () => {
     let parser;
@@ -18,11 +24,16 @@ describe('parse', () => {
     });
     it('should parse obj key & string type value', () => {
         const result = parser.parse('{"key":"value"}');
-        expect(result).to.eql({ key:'value' });
+        expect(result).to.eql({
+            key: 'value'
+        });
     });
     it('should parse several obj key & string type value', () => {
         const result = parser.parse('{"key":"value", "key2":"value2"}');
-        expect(result).to.eql({ key:'value', key2:'value2' });
+        expect(result).to.eql({
+            key: 'value',
+            key2: 'value2'
+        });
     });
 
 
@@ -33,33 +44,47 @@ describe('parse', () => {
     });
     it('should parse number value', () => {
         const result = parser.parse('{"key":112}');
-        expect(result).to.eql({ key:112 });
+        expect(result).to.eql({
+            key: 112
+        });
     });
     it('should parse empyt string value', () => {
         const result = parser.parse('{"key":""}');
-        expect(result).to.eql({ key:'' });
+        expect(result).to.eql({
+            key: ''
+        });
     });
     it('should parse empyt null value', () => {
         const result = parser.parse('{"key":null}');
-        expect(result).to.eql({ key:null });
+        expect(result).to.eql({
+            key: null
+        });
     });
     it('should parse empyt true value', () => {
         const result = parser.parse('{"key":true}');
-        expect(result).to.eql({ key:true });
+        expect(result).to.eql({
+            key: true
+        });
     });
     it('should parse empyt false value', () => {
         const result = parser.parse('{"key":false}');
-        expect(result).to.eql({ key:false });
+        expect(result).to.eql({
+            key: false
+        });
     });
     it('should parse formarted json string ', () => {
         const result = parser.parse(`{
             "key":false
         }`);
-        expect(result).to.eql({ key:false });
+        expect(result).to.eql({
+            key: false
+        });
     });
     it('should ignore white space', () => {
         const result = parser.parse('{ "key":false}');
-        expect(result).to.eql({ key:false });
+        expect(result).to.eql({
+            key: false
+        });
     });
 
     it('should parse array elements', () => {
@@ -74,17 +99,48 @@ describe('parse', () => {
 
     it('should parse array value', () => {
         const result = parser.parse('{"key":["a", "b"]}');
-        expect(result).to.eql({ key:['a', 'b'] });
+        expect(result).to.eql({
+            key: ['a', 'b']
+        });
     });
 
     it('should parse object in array', () => {
         const result = parser.parse('[{"key":1}]');
-        expect(result).to.eql([{ key:1 }]);
+        expect(result).to.eql([{
+            key: 1
+        }]);
     });
 
-    it.only('should parse escape string', () => {
+    it('should parse escape string : quota', () => {
         const result = parser.parse('{"key":"say:\\"hello\\""}');
-        expect(result).to.eql({ key:'say:"hello"' });
+        expect(result).to.eql({
+            key: 'say:"hello"'
+        });
+    });
+    it('should parse escape string : reverse slash', () => {
+        const result = parser.parse('{"key":"\\\\"}');
+        expect(result).to.eql({
+            key: '\\'
+        });
+    });
+    it('should parse escape string : unicode escapes', () => {
+        const result = parser.parse('{"key":"\\u00A0"}');
+        expect(result).to.eql({
+            key: '\u00A0'
+        });
+    });
+    it('should not parse escape string : invalid unicode escapes', () => {
+        // const result = parser.parse('{"key":"\\u00T0"}');
+        expect(function () {
+            parser.parse('{"key":"\\u00T0"}');
+        }).throw();
+    });
+
+    _.forEach(['\t', '\n', '\r', '\b'], (str) => {
+        it(`should parse escape string :\\${str}`, () => {
+            const result = parser.parse(`{"key":"\\${str}"}`);
+            expect(result.key).to.eql(str);
+        });
     });
 });
 
@@ -101,31 +157,33 @@ describe('serialize', () => {
     });
     it('should literal obj', () => {
         expect(serialize({
-            keya:null,
-            keyb:true,
-            keyc:1,
-            keyd:'test'
+            keya: null,
+            keyb: true,
+            keyc: 1,
+            keyd: 'test'
         })).to.equal('{"keya":null,"keyb":true,"keyc":1,"keyd":"test"}');
     });
     it('should serialize nested obj', () => {
         expect(serialize({
-            key:{
-                a:'1'
+            key: {
+                a: '1'
             }
         })).to.equal('{"key":{"a":"1"}}');
     });
     it('should serialize nested obj array ', () => {
         expect(serialize({
-            key:[1, 'a']
+            key: [1, 'a']
         })).to.equal('{"key":[1,"a"]}');
     });
     it('should serialize nested array ', () => {
-        expect(serialize([[1, 'a'], [1, 'b']])).to.equal('[[1,"a"],[1,"b"]]');
+        expect(serialize([
+            [1, 'a'],
+            [1, 'b']
+        ])).to.equal('[[1,"a"],[1,"b"]]');
     });
     it('should serialize nested array ', () => {
         expect(serialize([{
-            key:1
+            key: 1
         }])).to.equal('[{"key":1}]');
     });
 });
-

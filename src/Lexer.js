@@ -1,17 +1,19 @@
-/**
- * @param {String} src
- * @param {String} expect
- * @returns {Boolean} ..
- */
 
-/**
- * constructor
- * @param {String} str json string
- */
+const _ = require('lodash');
+
 function Lexer() {
     this.tokens = [];
     this.index = 0;
 }
+
+
+Lexer.ESCAPES = {
+    n: '\n',
+    f: '\f',
+    r: '\r',
+    t: '\t',
+    b: '\b'
+};
 
 Lexer.prototype.lex = function (str) {
     this.str = str;
@@ -56,22 +58,31 @@ Lexer.prototype.readString = function () {
     do {
         this.index++;
         char = this.str[this.index];
-        if (char === '\\') {
+
+        if (isEscape) {
+            if (_.has(Lexer.ESCAPES, char)) {
+                char = Lexer.ESCAPES[char];
+                isEscape = false;
+            } else if (char === 'u') {
+                isEscape = false;
+                var hex = this.str.substring(this.index + 1, this.index + 5);
+                if (!hex.match(/[\da-f]{4}/i)) {
+                    throw 'Invalid unicode escape';
+                }
+                this.index += 4;
+                char = String.fromCharCode(parseInt(hex, 16));
+            }
+            isEscape = false;
+        } else if (char === '\\') {
             isEscape = true;
             continue;
-        }
-        if (char === '"') {
-            if (isEscape) {
-                isEscape = false;
-                char = '\"';
-            } else {
-                this.index++;
-                this.tokens.push({
-                    text: subStr,
-                    value: subStr // 这个要准备转义用的
-                });
-                return;
-            }
+        } else if (char === '"') {
+            this.index++;
+            this.tokens.push({
+                text: subStr,
+                value: subStr // 这个要准备转义用的
+            });
+            return;
         }
         subStr += char;
     } while (char);
