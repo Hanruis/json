@@ -28,7 +28,7 @@ Lexer.prototype.lex = function (str) {
             this.readString();
         } else if (char === ':') {
             this.tokens.push({
-                text:char
+                text: char
             });
             this.index++;
         } else if (this.isNumber(char)) {
@@ -52,16 +52,26 @@ Lexer.prototype.match = function (src, expect) {
 Lexer.prototype.readString = function () {
     let subStr = '';
     let char;
+    let isEscape = false;
     do {
         this.index++;
         char = this.str[this.index];
+        if (char === '\\') {
+            isEscape = true;
+            continue;
+        }
         if (char === '"') {
-            this.index++;
-            this.tokens.push({
-                text:subStr,
-                value:subStr // 这个要准备转义用的
-            });
-            return;
+            if (isEscape) {
+                isEscape = false;
+                char = '\"';
+            } else {
+                this.index++;
+                this.tokens.push({
+                    text: subStr,
+                    value: subStr // 这个要准备转义用的
+                });
+                return;
+            }
         }
         subStr += char;
     } while (char);
@@ -96,8 +106,8 @@ Lexer.prototype.readNumber = function () {
         this.index++;
     }
     this.tokens.push({
-        text:number,
-        value:Number(number)
+        text: number,
+        value: Number(number)
     });
 };
 
@@ -123,8 +133,8 @@ Lexer.prototype.readId = function () {
     } while (this.isIdentifier(char) || this.isNumber(char));
 
     this.tokens.push({
-        text:identifier,
-        identifier:true
+        text: identifier,
+        identifier: true
     });
 };
 

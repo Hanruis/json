@@ -81,6 +81,11 @@ describe('parse', () => {
         const result = parser.parse('[{"key":1}]');
         expect(result).to.eql([{ key:1 }]);
     });
+
+    it.only('should parse escape string', () => {
+        const result = parser.parse('{"key":"say:\\"hello\\""}');
+        expect(result).to.eql({ key:'say:"hello"' });
+    });
 });
 
 
