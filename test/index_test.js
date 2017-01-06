@@ -181,9 +181,24 @@ describe('serialize', () => {
             [1, 'b']
         ])).to.equal('[[1,"a"],[1,"b"]]');
     });
-    it('should serialize nested array ', () => {
+    it('should serialize nested obj in array ', () => {
         expect(serialize([{
             key: 1
         }])).to.equal('[{"key":1}]');
+    });
+    it('should serialize string contain escape char \\" ', () => {
+        expect(serialize([{
+            key: '\"'
+        }])).to.equal('[{"key":"\""}]');
+    });
+    it('should serialize string contain escape char \\u00A0 ', () => {
+        expect(serialize([{
+            key: '\u00A0'
+        }])).to.equal('[{"key":"\u00A0"}]');
+    });
+    it('should serialize string contain escape char \\t ', () => {
+        expect(serialize([{
+            key: '\ta'
+        }])).to.equal('[{"key":"\ta"}]');
     });
 });
