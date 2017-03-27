@@ -4,7 +4,7 @@ const {
 const {
     Parser,
     serialize
-} = require('../src');
+} = require('../dist');
 const _ = require('lodash');
 
 describe('parse', () => {
