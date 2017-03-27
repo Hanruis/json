@@ -1,5 +1,5 @@
 
-const _ = require('lodash');
+import * as _ from 'lodash';
 
 function Lexer() {
     this.tokens = [];
@@ -65,7 +65,7 @@ Lexer.prototype.readString = function () {
                 isEscape = false;
             } else if (char === 'u') {
                 isEscape = false;
-                var hex = this.str.substring(this.index + 1, this.index + 5);
+                let hex = this.str.substring(this.index + 1, this.index + 5);
                 if (!hex.match(/[\da-f]{4}/i)) {
                     throw 'Invalid unicode escape';
                 }

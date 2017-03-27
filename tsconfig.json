@@ -2,10 +2,10 @@
     "compileOnSave": true,
     "compilerOptions": {
         "module": "commonjs",
-        "noImplicitAny": true,
         "target": "es5",
         "sourceMap": false,
-        "outDir": "./dist"
+        "outDir": "./dist",
+        "allowSyntheticDefaultImports": true
     },
     "include": [
         "src/**/*"

@@ -1,5 +1,5 @@
-const ASTTypes = require('./astTypes');
-const _ = require('lodash');
+import * as _ from 'lodash';
+import ASTTypes from './astTypes';
 
 
 function AST(lexer) {
@@ -34,14 +34,14 @@ AST.prototype.build = function () {
     if (this.tokens[0].text === '[') {
         this.tokens.shift();
         return {
-            type:ASTTypes.Array,
-            elements:this.elements(this.tokens)
+            type: ASTTypes.Array,
+            elements: this.elements(this.tokens)
         };
     } else if (this.tokens[0].text === '{') {
         this.tokens.shift();
         return {
-            type:ASTTypes.Object,
-            properties:this.properties(this.tokens)
+            type: ASTTypes.Object,
+            properties: this.properties(this.tokens)
         };
     } else {
         return this.primary();
@@ -57,7 +57,7 @@ AST.prototype.properties = function (tokens) {
 
     do {
         const prop = {
-            type:ASTTypes.Property
+            type: ASTTypes.Property
         };
         prop.key = this.nextToken();
         this.consume(':');
@@ -80,8 +80,8 @@ AST.prototype.primary = function () {
         }
     } else {
         primary = {
-            type:ASTTypes.Literal,
-            value:token.value
+            type: ASTTypes.Literal,
+            value: token.value
         };
     }
 
@@ -128,4 +128,4 @@ AST.prototype.consume = function (expect) {
     }
 };
 
-module.exports = AST;
+export default AST;

@@ -1,5 +1,5 @@
-const ASTTypes = require('./astTypes');
-const _ = require('lodash');
+import * as _ from 'lodash';
+import ASTTypes from './astTypes';
 
 function ASTCompiler(astBuilder) {
     this.astBuilder = astBuilder;
@@ -34,4 +34,4 @@ ASTCompiler.prototype.recurse = function (ast) {
     }
 };
 
-module.exports = ASTCompiler;
+export default ASTCompiler;
