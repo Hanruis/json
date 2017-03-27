@@ -8,12 +8,10 @@ function Parser() {
     this.ast = new AST(this.lexer);
     this.ASTCompiler = new ASTCompiler(this.ast);
 }
- 
 
 Parser.prototype.parse = function (text) {
     return this.ASTCompiler.compile(text);
 };
-
 
 function serialize(obj) {
     if (!_.isObject(obj) && !_.isArray(obj)) {

@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha -w test/**/*.js src/**/*.js"
+    "test": "mocha -w test/**/*.js src/**/*.js",
+    "watch": "node ./node_modules/typescript/lib/tsc -w"
   },
   "devDependencies": {
     "chai": "^3.5.0",
