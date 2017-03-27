@@ -1,4 +1,5 @@
 "use strict";
+var _ = require("lodash");
 function serialize(obj) {
     if (!_.isObject(obj) && !_.isArray(obj)) {
         throw new Error('obj:serialize target must be pure object or array');

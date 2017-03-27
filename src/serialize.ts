@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 function serialize(obj: Json): string {
     if (!_.isObject(obj) && !_.isArray(obj)) {
         throw new Error('obj:serialize target must be pure object or array');

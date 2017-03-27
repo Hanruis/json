@@ -9,7 +9,7 @@ var Parser = (function () {
         this.ast = new AST_1.default(this.lexer);
         this.ASTCompiler = new ASTCompiler_1.default(this.ast);
     }
-    Parser.prototype.parser = function (text) {
+    Parser.prototype.parse = function (text) {
         return this.ASTCompiler.compile(text);
     };
     return Parser;

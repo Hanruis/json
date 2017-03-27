@@ -16,7 +16,7 @@ class Parser{
         this.ast = new AST(this.lexer);
         this.ASTCompiler = new ASTCompiler(this.ast);
     }
-    parser(text: string){
+    parse(text: string){
         return this.ASTCompiler.compile(text);
     }
 }
