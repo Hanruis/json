@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import {Json} from './interface';
 
 function serialize(obj: Json): string {
     if (!_.isObject(obj) && !_.isArray(obj)) {
