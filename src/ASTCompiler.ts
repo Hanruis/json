@@ -13,6 +13,12 @@ class ASTCompiler{
     }
     compile(str){
         this.ast = this.astBuilder.ast(str);
+
+        const type = this.ast.type;
+        if (type !== ASTTypes.Object && type !== ASTTypes.Array){
+            throw new Error(`json parse error, unexpected token:${this.ast}`);
+        }
+
         return this.recurse(this.ast);
     }
     recurse(ast){

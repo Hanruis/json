@@ -7,6 +7,10 @@ var ASTCompiler = (function () {
     }
     ASTCompiler.prototype.compile = function (str) {
         this.ast = this.astBuilder.ast(str);
+        var type = this.ast.type;
+        if (type !== ASTTypes_1.default.Object && type !== ASTTypes_1.default.Array) {
+            throw new Error("json parse error, unexpected token:" + this.ast);
+        }
         return this.recurse(this.ast);
     };
     ASTCompiler.prototype.recurse = function (ast) {

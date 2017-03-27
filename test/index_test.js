@@ -22,6 +22,35 @@ describe('parse', () => {
         const result = parser.parse('[]');
         expect(result).to.eql([]);
     });
+
+    it('should throw while given null', () => {
+        expect(() => {
+            const result = parser.parse('null');
+            expect(result).to.eql({});
+        });
+    });
+
+    it('should throw while given true', () => {
+        expect(() => {
+            const result = parser.parse('true');
+            expect(result).to.eql({});
+        });
+    });
+
+    it('should throw while given false', () => {
+        expect(() => {
+            const result = parser.parse('false');
+            expect(result).to.eql({});
+        });
+    });
+
+    it('should throw while given undefined', () => {
+        expect(() => {
+            const result = parser.parse('undefined');
+            expect(result).to.eql({});
+        });
+    });
+
     it('should parse obj key & string type value', () => {
         const result = parser.parse('{"key":"value"}');
         expect(result).to.eql({
