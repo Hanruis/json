@@ -1,53 +1,18 @@
-var Lexer = require('./Lexer');
-var AST = require('./AST');
-var ASTCompiler = require('./ASTCompiler');
-var _ = require('lodash');
-function Parser() {
-    this.lexer = new Lexer();
-    this.ast = new AST(this.lexer);
-    this.ASTCompiler = new ASTCompiler(this.ast);
-}
-Parser.prototype.parse = function (text) {
-    return this.ASTCompiler.compile(text);
-};
-function serialize(obj) {
-    if (!_.isObject(obj) && !_.isArray(obj)) {
-        throw new Error();
+"use strict";
+var Lexer_1 = require("./Lexer");
+var AST_1 = require("./AST");
+var ASTCompiler_1 = require("./ASTCompiler");
+var serialize_1 = require("./serialize");
+var Parser = (function () {
+    function Parser() {
+        this.lexer = new Lexer_1.default();
+        this.ast = new AST_1.default(this.lexer);
+        this.ASTCompiler = new ASTCompiler_1.default(this.ast);
     }
-    function _serialize(src) {
-        if (_.isFunction(src)) {
-            throw new Error('serizlize target must be obj or array');
-        }
-        if (_.isArray(src)) {
-            var elements = _.map(src, function (item) {
-                return _serialize(item);
-            }).join(',');
-            return "[" + elements + "]";
-        }
-        else if (_.isObject(src)) {
-            var properties = _.map(src, function (value, key) {
-                var valString = _serialize(value);
-                return "\"" + key + "\":" + valString;
-            }).join(',');
-            return "{" + properties + "}";
-        }
-        else if (_.isNumber(src)) {
-            return src;
-        }
-        else if (_.isString(src)) {
-            return "\"" + src + "\"";
-        }
-        else if (_.isNull(src)) {
-            return 'null';
-        }
-        else if (_.isBoolean(src)) {
-            return src ? 'true' : 'false';
-        }
-        else {
-            throw new Error('unexpected serilize target:' + src);
-        }
-    }
-    return _serialize(obj);
-}
+    Parser.prototype.parser = function (text) {
+        return this.ASTCompiler.compile(text);
+    };
+    return Parser;
+}());
 exports.Parser = Parser;
-exports.serialize = serialize;
+exports.serialize = serialize_1.default;

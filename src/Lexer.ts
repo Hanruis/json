@@ -1,30 +1,9 @@
 
 import * as _ from 'lodash';
+import {LexerToken} from './interface';
 
 
 
-interface TokenParentheses{
-    text: '{' |'}' |'[' |']';
-}
-
-interface TokenColon{
-    text: ':';
-}
-
-interface TokenString{
-    text: string;
-    value: string;
-}
-
-interface TokenNumber{
-    text: string;
-    value: number;
-}
-
-interface TokenIdentify{
-    text: string;
-    identifier: true;
-}
 
 class Lexer {
 
@@ -36,7 +15,7 @@ class Lexer {
         b: '\b'
     };
 
-    tokens: Array<TokenParentheses|TokenColon|TokenString|TokenNumber|TokenIdentify>;
+    tokens: LexerToken[];
     index: number;
     str: string;
     constructor() {

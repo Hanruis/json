@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { Json, JsonArray } from '../interface';
+import { Json, JsonArray } from './interface';
 import Lexer from './Lexer';
 import AST from './AST';
 import ASTCompiler from './ASTCompiler';
@@ -8,7 +8,7 @@ import serialize from './serialize';
 class Parser{
 
     lexer: Lexer;
-    ast: ASt;
+    ast: AST;
     ASTCompiler: ASTCompiler;
 
     constructor(){

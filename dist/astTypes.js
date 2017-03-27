@@ -1,3 +1,4 @@
+"use strict";
 var AST = {
     Object: 'Object',
     Array: 'Array',
@@ -5,4 +6,5 @@ var AST = {
     Literal: 'Literal',
     Elements: 'Elements'
 };
-module.exports = AST;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = AST;

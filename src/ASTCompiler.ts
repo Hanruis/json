@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import ASTTypes from './astTypes';
+import ASTTypes from './ASTTypes';
 
 function ASTCompiler(astBuilder) {
     this.astBuilder = astBuilder;
