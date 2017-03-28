@@ -1,6 +1,6 @@
 
 import * as _ from 'lodash';
-import {LexerToken} from './interface';
+import {LexerToken, TokenIdentify} from './interface';
 
 
 
@@ -129,10 +129,16 @@ class Lexer {
             char = this.str[this.index];
         } while (this.isIdentifier(char) || this.isNumber(char));
 
-        this.tokens.push({
+        if (!this.isJSONIdentifier(identifier)){
+            throw new Error(`json parse erro, unexpected token:${identifier}`);
+        }
+
+        const IDToken = <TokenIdentify>{
             text: identifier,
             identifier: true
-        });
+        };
+
+        this.tokens.push(IDToken);
     }
     next(): string{
         return this.str[this.index + 1];
@@ -142,6 +148,9 @@ class Lexer {
     }
     isIdentifier(char: string){
         return /[a-zA-Z]/.test(char);
+    }
+    isJSONIdentifier(str: string){
+        return /null|false|true/g.test(str);
     }
     isWhiteSpace(char){
         return /\s/.test(char);

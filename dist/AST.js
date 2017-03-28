@@ -62,7 +62,7 @@ var AST = (function () {
     AST.prototype.primary = function () {
         var primary;
         var token = this.nextToken();
-        if (_.has(token, 'identifier')) {
+        if (this.isIdentifyNode(token)) {
             if (_.has(this.constants, token.text)) {
                 primary = this.constants[token.text];
             }
@@ -78,6 +78,10 @@ var AST = (function () {
         }
         return primary;
     };
+    AST.prototype.isIdentifyNode = function (token) {
+        return token.identifier !== undefined;
+    };
+    ;
     AST.prototype.elements = function (tokens) {
         var elements = [];
         if (this.expect(']')) {

@@ -123,10 +123,14 @@ var Lexer = (function () {
             this.index++;
             char = this.str[this.index];
         } while (this.isIdentifier(char) || this.isNumber(char));
-        this.tokens.push({
+        if (!this.isJSONIdentifier(identifier)) {
+            throw new Error("json parse erro, unexpected token:" + identifier);
+        }
+        var IDToken = {
             text: identifier,
             identifier: true
-        });
+        };
+        this.tokens.push(IDToken);
     };
     Lexer.prototype.next = function () {
         return this.str[this.index + 1];
@@ -136,6 +140,9 @@ var Lexer = (function () {
     };
     Lexer.prototype.isIdentifier = function (char) {
         return /[a-zA-Z]/.test(char);
+    };
+    Lexer.prototype.isJSONIdentifier = function (str) {
+        return /null|false|true/g.test(str);
     };
     Lexer.prototype.isWhiteSpace = function (char) {
         return /\s/.test(char);

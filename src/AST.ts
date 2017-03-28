@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import ASTTypes from './ASTTypes';
 import Lexer from './Lexer';
-import { LexerToken, ASTPropertyNode, LexerLiteralToken } from './interface';
+import { LexerToken, ASTPropertyNode, LexerLiteralToken, TokenIdentify } from './interface';
 
 
 
@@ -76,8 +76,8 @@ class AST {
     }
     primary() {
         let primary;
-        const token = <LexerLiteralToken>this.nextToken();
-        if (_.has(token, 'identifier')) {
+        const token = this.nextToken();
+        if (this.isIdentifyNode(token)) {
             if (_.has(this.constants, token.text)) {
                 primary = this.constants[token.text];
             } else {
@@ -86,12 +86,15 @@ class AST {
         } else {
             primary = {
                 type: ASTTypes.Literal,
-                value: token.value
+                value: (<LexerLiteralToken>token).value
             };
         }
 
         return primary;
     }
+    isIdentifyNode(token: LexerToken): token is TokenIdentify {
+        return (<TokenIdentify>token).identifier !== undefined;
+    };
     elements(tokens: LexerToken[]) {
         const elements = [];
 
