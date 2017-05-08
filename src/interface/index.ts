@@ -16,7 +16,8 @@ export interface TokenNumber{
     text: string;
     value: number;
 }
-type NoneOrBoolean = 'null'| 'true'|'false';
+
+export type NoneOrBoolean = 'null'| 'true'|'false';
 
 export interface TokenIdentify{
     text: NoneOrBoolean;
@@ -37,13 +38,13 @@ export interface JsonArray extends Array<string | number | boolean | Date | Json
 
 
 
-type ASTTypeProperty = 'Property';
+export  type ASTTypeProperty = 'Property';
 type ASTTypeObject = 'Object';
 type ASTTypeArray = 'Array';
 type ASTTypeLiteral = 'Literal';
 type ASTTypeElements = 'Elements';
 
-export  interface ASTPropertyNode{
+export  interface ASTPropertyNode {
     type: ASTTypeProperty;
     key: LexerToken;
     value: any;

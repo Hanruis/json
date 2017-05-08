@@ -19,8 +19,8 @@ var AST = (function () {
         };
         this.lexer = lexer;
     }
-    AST.prototype.ast = function (text) {
-        this.tokens = this.lexer.lex(text);
+    AST.prototype.ast = function (tokenStream) {
+        this.tokens = tokenStream;
         return this.build();
     };
     AST.prototype.build = function () {

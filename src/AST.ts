@@ -34,8 +34,8 @@ class AST {
     constructor(lexer: Lexer) {
         this.lexer = lexer;
     }
-    ast(text: string) {
-        this.tokens = this.lexer.lex(text);
+    ast(tokenStream: LexerToken[]) {
+        this.tokens = tokenStream;
         return this.build();
     }
     build() {
